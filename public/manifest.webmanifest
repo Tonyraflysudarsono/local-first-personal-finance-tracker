@@ -1,0 +1,11 @@
+{
+  "name": "Neraca | Keuangan Pribadi",
+  "short_name": "Neraca",
+  "description": "Catatan keuangan pribadi yang tersimpan lokal di browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f8f6",
+  "theme_color": "#0f5945",
+  "lang": "id",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
