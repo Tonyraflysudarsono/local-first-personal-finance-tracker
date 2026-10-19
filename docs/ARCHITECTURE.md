@@ -3,7 +3,7 @@
 ## Runtime and data flow
 
 Neraca uses React and TypeScript, built with Vinext and Vite. A local Node.js
-server serves the app. Finance state is loaded from IndexedDB in the browser,
+server serves the app on localhost by default. Finance state is loaded from IndexedDB in the browser,
 validated, and passed into the interface and calculation functions. User actions
 produce updated state, which is saved back to IndexedDB.
 
@@ -73,12 +73,19 @@ The service worker caches same-origin app resources for offline reuse after
 loading. It does not cache cross-origin price requests. PWA support does not
 provide a scheduler that makes payments or syncs balances while the app is closed.
 
-## Build scaffolding and boundaries
+## Server and build boundaries
 
-The starter includes a Cloudflare worker, a Sites build helper, and optional
-Drizzle/D1 examples. The checked-in `.openai/hosting.json` disables D1 and R2.
-These starter paths are not the authoritative finance store. `app/chatgpt-auth.ts`
-is an unused starter helper; the finance interface does not require login.
+`vite.config.ts` uses the Vinext plugin directly for Node.js development and
+builds. There is no Cloudflare worker, server database, or login integration.
+`scripts/start.mjs` serves production assets and proxies page requests to the
+internal Vinext server. Both servers listen on localhost by default. `HOST`
+and `PORT` explicitly configure the production server's listening address.
+Changing the address or port changes the browser origin and its local data.
+
+Build output belongs in ignored `dist/`. Source files and tests are versioned;
+dependency caches, browser data, financial exports, and local assistant notes
+are not. Git ignore rules are a guard against accidental commits, not encryption
+and not a substitute for reviewing every publication.
 
 Historical asset values and older reconciliation behavior have limitations
 described in the README. Publishing the repository does not migrate, expose,

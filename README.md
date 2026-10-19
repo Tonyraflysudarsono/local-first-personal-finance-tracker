@@ -9,6 +9,7 @@ base currency.
 Each person runs their own copy or opens the app in their own browser profile.
 Financial records are not shared between users or synced between devices.
 
+Start with the [Windows setup and update guide](docs/GETTING_STARTED.id.md).
 Read the [Indonesian user guide](docs/USER_GUIDE.id.md) for step-by-step usage,
 or [architecture and calculations](docs/ARCHITECTURE.md) for how the app works.
 
@@ -33,6 +34,7 @@ unavailable if the provider is rate-limited.
 ## Requirements
 
 - Node.js 22.13 or later and npm.
+- Git, for cloning the repository and downloading updates.
 - A modern browser with IndexedDB support.
 
 No `.env` file, login, bank API, or server database is needed for the finance app.
@@ -47,6 +49,8 @@ npm run dev
 ```
 
 Open the local URL printed in the terminal, normally `http://localhost:3000`.
+Keep the terminal running while using the app. Press `Ctrl+C` to stop it.
+On Windows PowerShell, use `npm.cmd` if your execution policy blocks `npm.ps1`.
 Create an account with its opening balance, then record transactions. The app
 starts without permanent sample financial records.
 
@@ -57,7 +61,10 @@ npm run build
 npm start
 ```
 
-The production server uses port 3000 by default. Set `PORT` to change it.
+Both development and production servers use localhost by default. The production
+server uses port 3000; set `PORT` to change it or `HOST` to explicitly change the
+listening address. The development server stops if its chosen port is already
+in use instead of silently switching to another origin with separate data.
 PWA installation and service workers require HTTPS or localhost. Sharing this
 repository makes the source available; it does not create a publicly hosted app.
 
@@ -71,6 +78,10 @@ Use **Backup & Pengaturan** to export a JSON backup, restore it, or export
 transactions to CSV. Keep backups private. Backup files are not encrypted by
 the app, and anyone with access to the browser profile can potentially read
 its records. Make a backup before upgrades or moving the app.
+
+Restoring a JSON backup **replaces all current app records** in that browser
+origin after confirmation. Export the current state first. CSV is a transaction
+export, not a full backup. Do not commit personal JSON/CSV exports to this repo.
 
 GoPay, OVO, and similar IDR balances belong under **Rekening & Kas** as e-wallet
 accounts. Expense validation uses the account balance on the transaction date;
@@ -87,6 +98,18 @@ npm run lint
 tests. Fixtures use synthetic data. Financial calculations run locally in
 TypeScript and do not use an LLM.
 
+## Updating an existing installation
+
+1. Export a JSON backup from the running app.
+2. Stop the local server with `Ctrl+C`.
+3. In the project directory, run `git pull --ff-only`, then `npm ci`.
+4. Start the server again and open the same browser profile and URL.
+
+For production use, run `npm run build` before `npm start`. Updating the source
+does not intentionally erase IndexedDB records, but a backup is still needed
+before upgrades. If Git reports local changes or a merge conflict, keep those
+changes and resolve them before updating; do not reset the checkout blindly.
+
 ## Project structure
 
 | Path | Purpose |
@@ -98,12 +121,12 @@ TypeScript and do not use an LLM.
 | `public/` | PWA manifest, service worker, and static assets |
 | `tests/` | Finance regression tests |
 | `scripts/start.mjs` | Production server entry point |
-| `build/`, `worker/`, `.openai/` | Vinext/Cloudflare build scaffolding |
+| `docs/` | Setup, usage, and architecture documentation |
+| `vite.config.ts` | Local development and build configuration |
 
-The app uses TypeScript, React, Vinext, Vite, and IndexedDB. `db/`, `drizzle/`,
-and `examples/d1/` are unused starter scaffolding, not storage for financial
-records. The hosting config has D1 and R2 bindings disabled. The finance app
-does not enable analytics or remote financial-data persistence.
+The app uses TypeScript, React, Vinext, Vite, and IndexedDB. It runs on Node.js
+without Cloudflare, D1, R2, an authentication provider, or a server database.
+The finance app does not enable analytics or remote financial-data persistence.
 
 ## Current limitations
 
@@ -113,6 +136,8 @@ does not enable analytics or remote financial-data persistence.
 - Older account corrections retain their original opening-balance behavior;
   new corrections take effect from the reconciliation date.
 - Rule-based analysis depends on the completeness of manually entered records.
+- The app has not been hardened for public server deployment. Review dependency
+  advisories with `npm audit`; passing unit tests is not a security certification.
 
 ## License
 

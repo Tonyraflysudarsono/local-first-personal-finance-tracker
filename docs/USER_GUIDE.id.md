@@ -7,7 +7,8 @@ akses ke data pengguna lain.
 
 ## 1. Jalankan aplikasi
 
-Ikuti bagian Quick start pada [README](../README.md). Gunakan alamat dan profil
+Ikuti [panduan instalasi Windows](GETTING_STARTED.id.md) atau bagian Quick start
+pada [README](../README.md). Gunakan alamat dan profil
 browser yang sama setiap kali membuka aplikasi agar data lokal tetap ditemukan.
 Antarmuka memakai bahasa Indonesia dan mata uang dasar rupiah.
 
@@ -101,8 +102,9 @@ dukungan tanggal tetap mengikuti pencatatan saldo dasar yang lama.
 
 Buka **Backup & Pengaturan** dan unduh JSON secara berkala, terutama sebelum
 update atau pindah perangkat. CSV hanya berisi transaksi dan bukan pengganti
-backup JSON seluruh aplikasi. Restore dilakukan secara eksplisit melalui menu
-yang sama; periksa dialog konfirmasi sebelum melanjutkan.
+backup JSON seluruh aplikasi. Restore melalui menu yang sama akan mengganti
+seluruh data aplikasi pada browser dan alamat tersebut setelah konfirmasi.
+Unduh backup keadaan saat ini sebelum melakukan restore.
 
 Data terikat pada kombinasi protokol, hostname, port, dan profil browser.
 `localhost:3000` dan `localhost:3001` memiliki penyimpanan berbeda. Jika data

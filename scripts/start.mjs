@@ -5,7 +5,7 @@ import { startProdServer } from "vinext/server/prod-server";
 
 const root = process.cwd();
 const clientRoot = resolve(root, "dist", "client");
-const host = process.env.HOSTNAME || "0.0.0.0";
+const host = process.env.HOST || "localhost";
 const port = Number.parseInt(process.env.PORT || "3000", 10);
 
 const contentTypes = {

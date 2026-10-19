@@ -46,6 +46,7 @@ next-env.d.ts
 *.tsbuildinfo
 /.codex/
 /.aws/
+/.openai/
 /.agents/
 /anti-slop/
 /AGENTS.md
